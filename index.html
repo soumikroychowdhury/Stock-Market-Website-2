@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="style.css">
+    <title>Stock Market | Search</title>
+</head>
+<body>
+    <h1>Stock Market</h1>
+
+
+    <nav>
+      <a class="navtop" href="index1.html">Crypto Design</a>
+      <a class="navtop" href="index2.html">Stock Data</a>
+    </nav>
+
+
+
+
+    <div class="container">
+        <div class="wrapper">
+            <div class="search">
+                <img src="stocklogo.jpg" class="imground" alt="This is a logo" width="200rem">
+
+                <p class="animate">Welcome Investors!</p><br>
+                Enter the name of the stock of which you want to see details<br>
+        
+                <div class="searchbox">
+                  <input type = "text" class = "search-control" placeholder="Enter the stock name" id = "search-input">
+                  <button type = "submit" class = "search-btn btn" id = "search-btn">
+                    <i class = "fas fa-search"></i>
+                  </button>
+
+
+
+                  <button onclick="stocksearch()"> Search Stock</button>
+                </div>
+              </div>
+
+              <div>
+                <h2 class = "title">These are the details of the stock:</h2>
+
+                <table class="table">
+                  <tr>
+                    <th>Symbol</th>
+                    <th>Indentifier</th>
+                    <th>Open</th>
+                    <th>Day High</th>
+                    <th>Day Low</th>
+                    <th>Last Price</th>
+                    <th>Last Update Time</th>
+                    <th>Year High</th>
+                    <th>Year Low</th>
+                  </tr>
+                </table>
+
+                
+              </div>
+        </div>
+    </div>
+
+    
+    <div class="select">
+
+    </div>
+    <div class="arrow">
+      <a href="#" title="Back to Top"><span class="fas fa-angle-up"></span></a>
+   </div>
+   <script>
+
+    
+
+
+    function stocksearch(){
+      window.location.assign("https://www.google.com/finance/")
+    }
+
+
+    const options = {
+	    method: 'GET',
+	    headers: {
+	    	'X-RapidAPI-Key': '',
+	    	'X-RapidAPI-Host': 'latest-stock-price.p.rapidapi.com'
+	    }
+    };
+    var table=document.querySelector('table');
+    const searchBtn = document.getElementById('search-btn');
+    searchBtn.addEventListener('click', getList);
+
+    function getList(){
+      let searchInputTxt = document.getElementById('search-input').value.trim();
+      fetch(`https://latest-stock-price.p.rapidapi.com/price?Indices=NIFTY%20500&Identifier=${searchInputTxt}`, options)
+    	.then(response => response.json())
+    	.then((data)=>{
+          data.forEach((item)=> {
+            table.innerHTML+= `
+              <td>${item.symbol}</td>
+              <td>${item.identifier}</td>
+              <td>${item.open}</td>
+              <td>${item.dayHigh}</td>
+              <td>${item.dayLow}</td>
+              <td>${item.lastPrice}</td>
+              <td>${item.lastUpdateTime}</td>
+              <td>${item.yearHigh}</td>
+              <td>${item.yearLow}</td>
+            `;
+          })
+      })
+    	.catch(error => console.error(error));
+    }
+
+   </script>
+</body>
+</html>
